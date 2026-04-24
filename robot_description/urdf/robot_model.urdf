@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<robot name="robot_model">
+
+    <link name="world">
+    </link>
+    
+    <link name="base_link">
+        <visual>
+          <geometry>
+            <box size="0.3 0.2 0.05"/>
+          </geometry>
+        </visual>
+    </link>
+    
+    <joint name="world_to_base" type="fixed">
+        <parent link="world"/>
+        <child link="base_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+    
+</robot>

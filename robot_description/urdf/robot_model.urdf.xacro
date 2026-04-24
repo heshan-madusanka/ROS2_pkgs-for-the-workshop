@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot_model">
+
+  <!-- include macros -->
+  <xacro:include filename="$(find robot_description)/urdf/box_macro.xacro" />
+  <xacro:include filename="$(find robot_description)/urdf/gz_properties.xacro" />
+  <!-- Define xacro properties -->
+  <xacro:property name="base_length" value="0.50"/>
+  <xacro:property name="base_width" value="0.05"/> 
+  <xacro:property name="base_height" value="0.05"/>
+  <xacro:property name="base_mass" value="1.0"/>
+  <xacro:property name="base_color" value="0.9 0.4 0.2 1"/>
+
+  <xacro:property name="base_visual_xyz" value="${(float(base_length)/2.0)} 0 0"/>
+  <xacro:property name="base_visual_rpy" value="0 0 0"/>
+
+  <xacro:property name="arm1_length" value="0.30"/>
+  <xacro:property name="arm1_width" value="0.05"/> 
+  <xacro:property name="arm1_height" value="0.05"/>
+  <xacro:property name="arm1_mass" value="0.6"/>
+  <xacro:property name="arm1_color" value="0.4 0.9 0.2 1"/>
+
+  <xacro:property name="arm1_visual_xyz" value="${(float(arm1_length)/2.0)} 0 0"/>
+  <xacro:property name="arm1_visual_rpy" value="0 0 0"/>
+
+  <link name="world"/>
+
+  <xacro:box_link
+    link_name="base_link"
+    size_x="${base_length}"
+    size_y="${base_width}"
+    size_z="${base_height}"
+    mass="${base_mass}"
+    color_rgba="${base_color}"
+    xyz="${base_visual_xyz}"
+    rpy="${base_visual_rpy}" />
+
+  <joint name="world_to_base" type="fixed">
+    <origin xyz="0 0 0" rpy="0 -1.57 0"/>
+    <parent link="world"/>
+    <child  link="base_link"/>    
+  </joint>
+
+  <xacro:box_link
+    link_name="arm1_link"
+    size_x="${arm1_length}"
+    size_y="${arm1_width}"
+    size_z="${arm1_height}"
+    mass="${arm1_mass}"
+    color_rgba="${arm1_color}"
+    xyz="${arm1_visual_xyz}"
+    rpy="${arm1_visual_rpy}" />
+
+  <joint name="base_to_arm1" type="continuous">
+    <origin xyz="${float(base_length) - float(arm1_height)} ${float(arm1_height)} 0" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child  link="arm1_link"/>
+    <axis  xyz="0 1 0"/>
+  </joint>
+  
+</robot>
